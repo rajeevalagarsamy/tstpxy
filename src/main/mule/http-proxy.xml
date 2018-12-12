@@ -24,7 +24,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 
     <http:request-config name="http-request-config" basePath="${implementation.path}">
         <http:request-connection host="${implementation.host}" port="${implementation.port}"
-                                 protocol="${implementation.protocol}" tlsContext="TLS_Context"/>
+                                 protocol="${implementation.protocol}"/>
     </http:request-config>
 
     <tls:context name="TLS_Context" doc:name="TLS Context" doc:id="c7a5b71f-8bfe-4b9b-ab49-45c409a3c544" >
