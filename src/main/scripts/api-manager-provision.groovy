@@ -505,9 +505,9 @@ class CICDUtil
     def persisteAPIDiscoveryDetail (props, result)
     {
        
-        File file = new File(props.path+"\config.properties")
+        File file = new File(props.path+'/config.properties')
         Properties props1 = new Properties()
-        def config = props.path+"\config.properties"
+        def config = props.path+'/config.properties'
         log(DEBUG,  "Config.properties path" + config )
         File propsFile = new File(config)
         props1.load(propsFile.newDataInputStream())
