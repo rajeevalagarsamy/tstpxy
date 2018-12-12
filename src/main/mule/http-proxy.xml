@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 
         <proxy:request-headers config-ref="proxy-config" target="proxyRequestHeaders"/>
 
-        <http:request config-ref="${implementation.config}" method="#[attributes.method]"
+        <http:request config-ref="HTTPS-request-config" method="#[attributes.method]"
                       path="#[attributes.requestPath replace ((((attributes.listenerPath replace '/\*' as Regex with '') replace /\{\w+\}/ with '\\w+') as Regex replace '/' with '\\/')) as Regex with '']">
             <http:headers><![CDATA[#[vars.proxyRequestHeaders]]]></http:headers>
             <http:uri-params><![CDATA[#[attributes.uriParams]]]></http:uri-params>
