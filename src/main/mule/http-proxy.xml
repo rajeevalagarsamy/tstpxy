@@ -23,7 +23,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
     <api-gateway:autodiscovery apiId="${api.id}" flowRef="proxy"/>
 
     <http:request-config name="HTTPS-request-config" basePath="${implementation.path}">
-        <http:request-connection host="${implementation.host}" port="${implementation.port}" tlsContext="TLS_Context"/>
+        <http:request-connection host="${implementation.host}" port="${implementation.port}" tlsContext="TLS_Context" protocol="HTTPS" />
     </http:request-config>
 
     <tls:context name="TLS_Context" doc:name="TLS Context" doc:id="c7a5b71f-8bfe-4b9b-ab49-45c409a3c544" >
@@ -41,7 +41,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 
         <proxy:request-headers config-ref="proxy-config" target="proxyRequestHeaders"/>
 
-        <http:request config-ref="HTTPS-request-config" method="#[attributes.method]"
+        <http:request config-ref="${implementation.config}" method="#[attributes.method]"
                       path="#[attributes.requestPath replace ((((attributes.listenerPath replace '/\*' as Regex with '') replace /\{\w+\}/ with '\\w+') as Regex replace '/' with '\\/')) as Regex with '']">
             <http:headers><![CDATA[#[vars.proxyRequestHeaders]]]></http:headers>
             <http:uri-params><![CDATA[#[attributes.uriParams]]]></http:uri-params>
