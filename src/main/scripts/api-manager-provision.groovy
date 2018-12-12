@@ -79,7 +79,7 @@ class CICDUtil
     {
 
               
-        def props = ['username':System.properties.'anypoint.user', 
+        def props = ['username':System.properties.'anypoint.username', 
                      'password': System.properties.'anypoint.password',
                      'orgId': System.properties.'orgId',
                      'version': System.properties.'version',
