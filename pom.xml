@@ -109,6 +109,7 @@
 									<implementation.path>${implPath}</implementation.path>
 									<implementation.port>${implPort}</implementation.port>
 									<implementation.protocol>${implProtocol}</implementation.protocol>
+									<implementation.config>${implConfig}</implementation.config>
 									<proxy.responseTimeout>${proxyTimeout}</proxy.responseTimeout>
 									<proxy.path>${proxyPath}</proxy.path>
 									<proxy.port>${proxyPort}</proxy.port>

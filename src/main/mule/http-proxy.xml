@@ -17,38 +17,40 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
     <proxy:config name="proxy-config"/>
 
     <http:listener-config name="http-listener-config">
-        <http:listener-connection host="0.0.0.0" port="${proxy.port}" protocol="HTTP"/>
+        <http:listener-connection host="0.0.0.0" port="${proxy.port}"/>
     </http:listener-config>
 
     <api-gateway:autodiscovery apiId="${api.id}" flowRef="proxy"/>
 
-    <http:request-config name="http-request-config" basePath="${implementation.path}">
-        <http:request-connection host="${implementation.host}" port="${implementation.port}"
-                                 protocol="${implementation.protocol}"/>
+    <http:request-config name="HTTPS-request-config" basePath="${implementation.path}">
+        <http:request-connection host="${implementation.host}" port="${implementation.port}" tlsContext="TLS_Context"/>
     </http:request-config>
 
     <tls:context name="TLS_Context" doc:name="TLS Context" doc:id="c7a5b71f-8bfe-4b9b-ab49-45c409a3c544" >
 		<tls:trust-store path="truststore.jks" password="keystorepass" type="jks" insecure="true" />
 	</tls:context>
+	<http:request-config name="HTTP-request-config" doc:name="HTTP Request configuration" doc:id="37eccaf1-28b1-4553-af58-6e1778f3a2a6" basePath="${implementation.path}">
+		<http:request-connection host="${implementation.host}" port="${implementation.port}" />
+	</http:request-config>
 	<flow name="proxy">
-        <http:listener config-ref="http-listener-config" path="${proxy.path}" responseStreamingMode="AUTO">
+        <http:listener config-ref="http-listener-config" path="${proxy.path}">
             <http:response statusCode="#[attributes.statusCode]" reasonPhrase="#[attributes.reasonPhrase]">
-                <http:headers>#[if (vars.proxyResponseHeaders?) vars.proxyResponseHeaders else {}]</http:headers>
+                <http:headers><![CDATA[#[if (vars.proxyResponseHeaders?) vars.proxyResponseHeaders else {}]]]></http:headers>
             </http:response>
         </http:listener>
 
         <proxy:request-headers config-ref="proxy-config" target="proxyRequestHeaders"/>
 
-        <http:request config-ref="http-request-config" method="#[attributes.method]"
+        <http:request config-ref="${implementation.config}" method="#[attributes.method]"
                       path="#[attributes.requestPath replace ((((attributes.listenerPath replace '/\*' as Regex with '') replace /\{\w+\}/ with '\\w+') as Regex replace '/' with '\\/')) as Regex with '']">
-            <http:headers>#[vars.proxyRequestHeaders]</http:headers>
-            <http:uri-params>#[attributes.uriParams]</http:uri-params>
-            <http:query-params>#[attributes.queryParams]</http:query-params>
+            <http:headers><![CDATA[#[vars.proxyRequestHeaders]]]></http:headers>
+            <http:uri-params><![CDATA[#[attributes.uriParams]]]></http:uri-params>
+            <http:query-params><![CDATA[#[attributes.queryParams]]]></http:query-params>
             <http:response-validator>
                 <http:success-status-code-validator values="0..599"/>
             </http:response-validator>
         </http:request>
-
+        
         <proxy:response-headers config-ref="proxy-config" target="proxyResponseHeaders"/>
 
         <error-handler>
