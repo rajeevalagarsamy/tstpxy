@@ -409,7 +409,7 @@ class CICDUtil
         request.spec.groupId = profileDetails.orgId
         request.spec.assetId = props.assetId
         request.spec.version = props.assetVersion
-        request.endpoint.uri = props.apiImplUri
+        request.endpoint.uri = props.apiImplUri.toLowerCase()
         
         if( props.apiProxyUri != "null" )
         {
