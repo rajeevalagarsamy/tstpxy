@@ -71,10 +71,9 @@
 					<plugin>
 						<groupId>org.mule.tools.maven</groupId>
 						<artifactId>mule-maven-plugin</artifactId>
-						<version>${mule.maven.plugin.version}</version>
+						<version>${muleMavenPluginVersion}</version>
 						<extensions>true</extensions>
 						<configuration>
-							<classifier>mule-application</classifier>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -87,7 +86,7 @@
 					<plugin>
 						<groupId>org.mule.tools.maven</groupId>
 						<artifactId>mule-maven-plugin</artifactId>
-						<version>${mule.maven.plugin.version}</version>
+						<version>${muleMavenPluginVersion}</version>
 						<extensions>true</extensions>
 						<configuration>
 							<runtimeFabricDeployment>
